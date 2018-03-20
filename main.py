@@ -14,6 +14,11 @@ CHROMIUM_DRIVER_PATH = "/usr/lib/chromium-browser/chromedriver"
 # TODO excel table on the GoogleDrive with statistics
 
 def save_page_screenshot(media_ids):
+    """
+    Makes screenshots of comments and uploads them to Google Drive.
+    :param media_ids: list of media ids that have new comments
+    :return:
+    """
     # open in chrome
     driver = webdriver.Chrome(CHROMIUM_DRIVER_PATH)
 

@@ -17,3 +17,4 @@ if API.getUserFeed(AUCTION_PROFILE_ID):
     save_page_screenshot(ids)
 
 # TODO time.sleep
+# TODO if __name__==__main__
