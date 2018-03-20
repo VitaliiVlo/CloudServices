@@ -12,8 +12,8 @@ API.login()
 
 if API.getUserFeed(AUCTION_PROFILE_ID):
     items = API.LastJson["items"][:6]
-    for item in items:
-        # TODO database check
-        save_page_screenshot(item["id"])
+    ids = [item["id"] for item in items]
+    # TODO database check (SQLAlchemy)
+    save_page_screenshot(ids)
 
 # TODO time.sleep
