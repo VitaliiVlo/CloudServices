@@ -3,11 +3,7 @@ from utils import media_id_to_code
 from datetime import datetime
 import tempfile
 import os
-
-BASE_DIR = os.path.dirname(__file__)
-IMAGE_EXTENSION = "png"
-INSTAGRAM_URL = "https://www.instagram.com/p/%s/"
-CHROMIUM_DRIVER_PATH = "/usr/lib/chromium-browser/chromedriver"
+import settings
 
 
 # TODO: celery or multi threading
@@ -20,11 +16,11 @@ def save_page_screenshot(media_ids):
     :return:
     """
     # open in chrome
-    driver = webdriver.Chrome(CHROMIUM_DRIVER_PATH)
+    driver = webdriver.Chrome(settings.CHROMIUM_DRIVER_PATH)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         for media_id in media_ids:
-            url = INSTAGRAM_URL % media_id_to_code(media_id)
+            url = settings.INSTAGRAM_URL % media_id_to_code(media_id)
             driver.get(url)
 
             driver.execute_script('''
@@ -35,7 +31,7 @@ def save_page_screenshot(media_ids):
             comments.appendChild(comments.childNodes[i]);
             ''')
 
-            file_name = "%s.%s" % (media_id, IMAGE_EXTENSION)
+            file_name = "%s.%s" % (media_id, settings.IMAGE_EXTENSION)
             file_path = os.path.join(temp_dir, file_name)
             driver.save_screenshot(file_path)
 
