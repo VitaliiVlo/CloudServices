@@ -1,0 +1,10 @@
+decorator==4.0.11
+imageio==2.1.2
+InstagramAPI==1.0.2
+moviepy==0.2.3.2
+numpy==1.14.2
+Pillow==5.0.0
+requests==2.11.1
+requests-toolbelt==0.7.0
+selenium==3.11.0
+tqdm==4.11.2
