@@ -3,13 +3,16 @@
 
 from InstagramAPI import InstagramAPI
 from main import save_page_screenshot
+from utils import username_to_id
 import settings
 
 API = InstagramAPI(settings.LOGIN, settings.PASS)
 API.login()
 # TODO while True
 
-if API.getUserFeed(settings.AUCTION_PROFILE_ID):
+AUCTION_PROFILE_ID = username_to_id(settings.AUCTION_PROFILE_USERNAME)
+
+if API.getUserFeed(AUCTION_PROFILE_ID):
     items = API.LastJson["items"][:6]
     ids = [item["id"] for item in items]
     # TODO database check (SQLAlchemy)

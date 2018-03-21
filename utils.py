@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import requests
+
+
 def media_id_to_code(media_id):
     """
     Converts media_id of an Instagram post to code that used in URL.
@@ -28,3 +31,15 @@ def code_to_media_id(short_code):
     for letter in short_code:
         media_id = (media_id*64) + alphabet.index(letter)
     return media_id
+
+
+def username_to_id(username):
+    """
+    Converts username of an Instagram account to the ID.
+    :param username: Instagram account username
+    :return: Instagram account ID
+    """
+    url = 'https://www.instagram.com/{}/?__a=1'.format(username)
+    r = requests.get(url)
+    json = r.json()
+    return json['graphql']['user']['id']
