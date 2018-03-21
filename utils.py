@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 def media_id_to_code(media_id):
     """
     Converts media_id of an Instagram post to code that used in URL.

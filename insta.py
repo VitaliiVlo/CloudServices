@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from InstagramAPI import InstagramAPI
 from main import save_page_screenshot
 import settings
