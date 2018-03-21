@@ -5,6 +5,24 @@ from InstagramAPI import InstagramAPI
 from main import save_page_screenshot
 from utils import username_to_id
 import settings
+import logging
+import sys
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter(u'%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+fileHandler = logging.FileHandler('log.txt')
+fileHandler.setFormatter(formatter)
+fileHandler.setLevel(logging.DEBUG)
+logger.addHandler(fileHandler)
+
+consoleHandler = logging.StreamHandler(sys.stdout)
+consoleHandler.setFormatter(formatter)
+consoleHandler.setLevel(logging.DEBUG)
+logger.addHandler(consoleHandler)
 
 API = InstagramAPI(settings.LOGIN, settings.PASS)
 API.login()

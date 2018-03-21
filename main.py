@@ -7,6 +7,10 @@ from datetime import datetime
 import tempfile
 import os
 import settings
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 # TODO: celery or multi threading
@@ -36,6 +40,7 @@ def save_page_screenshot(media_ids):
 
             file_name = "%s.%s" % (media_id, settings.IMAGE_EXTENSION)
             file_path = os.path.join(temp_dir, file_name)
+            logger.info("Saving screenshot %s to temp folder", file_name)
             driver.save_screenshot(file_path)
 
             # TODO google drive upload

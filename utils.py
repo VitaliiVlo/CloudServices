@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def media_id_to_code(media_id):
@@ -10,6 +14,7 @@ def media_id_to_code(media_id):
     :param media_id: id of the post
     :return: code that used in Instagram URL
     """
+    logger.info("Converting media_id %s to code", media_id)
     media_id = int(media_id.split("_")[0])
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
     short_code = ''
@@ -39,6 +44,7 @@ def username_to_id(username):
     :param username: Instagram account username
     :return: Instagram account ID
     """
+    logger.info('Converting username \'%s\' to ID', username)
     url = 'https://www.instagram.com/{}/?__a=1'.format(username)
     r = requests.get(url)
     json = r.json()
