@@ -7,23 +7,8 @@ from utils import username_to_id
 from multiprocessing import Pool
 import settings
 import logging
-import sys
 
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter(u'%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-fileHandler = logging.FileHandler('log.txt')
-fileHandler.setFormatter(formatter)
-fileHandler.setLevel(logging.DEBUG)
-logger.addHandler(fileHandler)
-
-consoleHandler = logging.StreamHandler(sys.stdout)
-consoleHandler.setFormatter(formatter)
-consoleHandler.setLevel(logging.DEBUG)
-logger.addHandler(consoleHandler)
+from logger_module import *
 
 API = InstagramAPI(settings.LOGIN, settings.PASS)
 API.login()
