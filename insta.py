@@ -4,6 +4,7 @@
 from InstagramAPI import InstagramAPI
 from main import save_page_screenshot
 from utils import username_to_id
+from multiprocessing import Pool
 import settings
 import logging
 import sys
@@ -26,15 +27,19 @@ logger.addHandler(consoleHandler)
 
 API = InstagramAPI(settings.LOGIN, settings.PASS)
 API.login()
-# TODO while True
 
 AUCTION_PROFILE_ID = username_to_id(settings.AUCTION_PROFILE_USERNAME)
 
+pool = Pool()
+
+# TODO if __name__==__main__
+# TODO while True
 if API.getUserFeed(AUCTION_PROFILE_ID):
     items = API.LastJson["items"][:6]
     ids = [item["id"] for item in items]
     # TODO database check (SQLAlchemy)
-    save_page_screenshot(ids)
+    pool.apply_async(save_page_screenshot, args=(ids, ))
+    # TODO time.sleep
 
-# TODO time.sleep
-# TODO if __name__==__main__
+pool.close()
+pool.join()
