@@ -10,6 +10,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+with open("to_execute.js", "r") as file:
+    JS_SCRIPT = file.read()
+
+
 def save_page_screenshot(media_ids):
     """
     Makes screenshots of comments and uploads them to Google Drive.
@@ -22,14 +26,7 @@ def save_page_screenshot(media_ids):
             for media_id in media_ids:
                 url = settings.INSTAGRAM_URL % media_id_to_code(media_id)
                 driver.get(url)
-
-                driver.execute_script('''
-                document.getElementsByClassName('_2pnef')[0].style.visibility = 'hidden';
-                var comments = document.getElementsByTagName("ul")[0];
-                var i = comments.childNodes.length;
-                while(i--)
-                comments.appendChild(comments.childNodes[i]);
-                ''')
+                driver.execute_script(JS_SCRIPT)
 
                 file_name = "%s.%s" % (media_id, settings.IMAGE_EXTENSION)
                 file_path = os.path.join(temp_dir, file_name)
