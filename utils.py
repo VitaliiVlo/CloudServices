@@ -3,7 +3,9 @@
 
 import requests
 import logging
-
+import settings
+import signal
+from selenium import webdriver
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +36,7 @@ def code_to_media_id(short_code):
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
     media_id = 0
     for letter in short_code:
-        media_id = (media_id*64) + alphabet.index(letter)
+        media_id = (media_id * 64) + alphabet.index(letter)
     return media_id
 
 
@@ -49,3 +51,19 @@ def username_to_id(username):
     r = requests.get(url)
     json = r.json()
     return json['graphql']['user']['id']
+
+
+class ChromeDriverWrapper:
+    def __init__(self):
+        # open in chrome
+        self.driver = webdriver.Chrome(settings.CHROMIUM_DRIVER_PATH)
+
+    def __enter__(self):
+        return self.driver
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.driver.quit()
+
+
+def init_worker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)

@@ -11,3 +11,4 @@ CHROMIUM_DRIVER_PATH = "/usr/lib/chromium-browser/chromedriver"
 LOGIN = "tester_testerenko"
 PASS = "new_password"
 AUCTION_PROFILE_USERNAME = "nike"
+LAST_ITEMS_LIMIT = 5

@@ -3,28 +3,31 @@
 
 from InstagramAPI import InstagramAPI
 from main import save_page_screenshot
-from utils import username_to_id
+from utils import username_to_id, init_worker
 from multiprocessing import Pool
-import settings
-import logging
-
 from logger_module import *
+import settings
 
-API = InstagramAPI(settings.LOGIN, settings.PASS)
-API.login()
 
-AUCTION_PROFILE_ID = username_to_id(settings.AUCTION_PROFILE_USERNAME)
+if __name__ == "__main__":
+    API = InstagramAPI(settings.LOGIN, settings.PASS)
+    API.login()
 
-pool = Pool()
+    AUCTION_PROFILE_ID = username_to_id(settings.AUCTION_PROFILE_USERNAME)
 
-# TODO if __name__==__main__
-# TODO while True
-if API.getUserFeed(AUCTION_PROFILE_ID):
-    items = API.LastJson["items"][:6]
-    ids = [item["id"] for item in items]
-    # TODO database check (SQLAlchemy)
-    pool.apply_async(save_page_screenshot, args=(ids, ))
-    # TODO time.sleep
+    pool = Pool(initializer=init_worker)
 
-pool.close()
-pool.join()
+    try:
+        # TODO while True
+        if API.getUserFeed(AUCTION_PROFILE_ID):
+            items = API.LastJson["items"][:settings.LAST_ITEMS_LIMIT]
+            ids = [item["id"] for item in items]
+            # TODO database check (SQLAlchemy)
+            pool.apply_async(save_page_screenshot, args=(ids,)).get(timeout=9999999)
+            # TODO time.sleep
+
+    except KeyboardInterrupt:
+        logger.error("Process stopped manually")
+    finally:
+        pool.close()
+        pool.join()
