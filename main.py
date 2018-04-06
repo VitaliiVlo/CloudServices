@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from utils import media_id_to_code, ChromeDriverWrapper
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 import tempfile
 import os
 import settings
@@ -9,6 +11,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+gauth = GoogleAuth()
+drive = GoogleDrive(gauth)
 
 with open("to_execute.js", "r") as file:
     JS_SCRIPT = file.read()
@@ -33,7 +37,12 @@ def save_page_screenshot(media_ids):
                 logger.info("Saving screenshot %s to temp folder", file_name)
                 driver.save_screenshot(file_path)
 
-                # TODO google drive upload
+                file_entity = drive.CreateFile()
+                file_entity.SetContentFile(file_path)
+                file_entity['title'] = file_name
+                file_entity.Upload()
+
+                # TODO fix permission bug (not deleting tempdir)
                 # TODO excel table on the GoogleDrive with statistics
                 # TODO change name and description of the file on the GoogleDrive
                 # $file->setDescription('Нова ставка '.date("d F Y H:i:s").' from user id'. $from);
