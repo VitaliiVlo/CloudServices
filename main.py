@@ -8,6 +8,7 @@ import tempfile
 import os
 import settings
 import logging
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,8 @@ def save_page_screenshot(media_ids):
     :return:
     """
 
+    now = datetime.datetime.now()
+
     with ChromeDriverWrapper() as driver:
         with tempfile.TemporaryDirectory() as temp_dir:
             for media_id in media_ids:
@@ -32,7 +35,7 @@ def save_page_screenshot(media_ids):
                 driver.get(url)
                 driver.execute_script(JS_SCRIPT)
 
-                file_name = "%s.%s" % (media_id, settings.IMAGE_EXTENSION)
+                file_name = "{}.{}".format(now.strftime("%d %B %Y %H-%M-%S"), settings.IMAGE_EXTENSION)
                 file_path = os.path.join(temp_dir, file_name)
                 logger.info("Saving screenshot %s to temp folder", file_name)
                 driver.save_screenshot(file_path)
@@ -44,7 +47,4 @@ def save_page_screenshot(media_ids):
 
                 # TODO fix permission bug (not deleting tempdir)
                 # TODO excel table on the GoogleDrive with statistics
-                # TODO change name and description of the file on the GoogleDrive
-                # $file->setDescription('Нова ставка '.date("d F Y H:i:s").' from user id'. $from);
-                # $file->setMimeType('image/jpeg');
-                # $file->setName($name."_".time().".png");
+
