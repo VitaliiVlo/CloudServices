@@ -12,3 +12,4 @@ LOGIN = "tester_testerenko"
 PASS = "new_password"
 AUCTION_PROFILE_USERNAME = "nike"
 LAST_ITEMS_LIMIT = 5
+DEFAULT_SLEEP_TIME = 5
