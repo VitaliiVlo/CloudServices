@@ -18,3 +18,4 @@ selenium==3.11.0
 six==1.11.0
 tqdm==4.11.2
 uritemplate==3.0.0
+SQLAlchemy==1.2.6
