@@ -1,6 +1,9 @@
 var popup = document.getElementsByClassName('_2pnef');
-if (popup !== null) {
+
+try {
     popup[0].style.visibility = 'hidden';
+} catch (e) {
+    console.log(e);
 }
 
 var comments = document.getElementsByTagName('ul')[0];
